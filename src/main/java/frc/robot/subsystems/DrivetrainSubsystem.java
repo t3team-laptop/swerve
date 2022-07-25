@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -41,6 +43,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
+  public ADIS16470_IMU gyro = new ADIS16470_IMU();
   /** Creates a new DrivetrainSubsystem. */
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -70,6 +74,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
     Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
     Constants.BACK_RIGHT_MODULE_STEER_OFFSET);
+  }
+
+  public void zeroGyroscope() {
+    gyro.reset();
+  }
+
+  public Rotation2d getGyroscopeRotation() {
+    return Rotation2d.fromDegrees(gyro.getAngle());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
