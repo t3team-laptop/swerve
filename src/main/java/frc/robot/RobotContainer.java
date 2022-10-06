@@ -80,4 +80,8 @@ public class RobotContainer {
 
     return value;
   }
+
+  public Command getAutonomousCommand() {
+    return null;
+  }
 }
